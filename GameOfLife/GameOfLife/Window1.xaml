@@ -1,0 +1,36 @@
+﻿<Window x:Class="GameOfLife.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Лог" Height="694.65" Width="532">
+    <Grid>
+        <DataGrid x:Name="logGrid" HorizontalAlignment="Left" Height="142" Margin="35,51,0,0" VerticalAlignment="Top" Width="461" AutoGenerateColumns="False" EnableRowVirtualization="False" CanUserAddRows="False" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding startstate}" Header="Начальное состояние" Width="110" IsReadOnly="True"/>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="ShowStartStateBoard">Показать</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding startdate, StringFormat={}{0:dd/MM/yyyy}}" Header="Дата начала" Width="110" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding endstate}" Header="Конечное состояние" Width="110" IsReadOnly="True"/>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="ShowEndStateBoard">Показать</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding enddate, StringFormat={}{0:dd/MM/yyyy}}" Header="Дата окончания" Width="110" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DatePicker x:Name="start" HorizontalAlignment="Left" Margin="97,10,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="end" HorizontalAlignment="Left" Margin="325,10,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="generate" Content="Сформировать" HorizontalAlignment="Left" Height="24" Margin="204,10,0,0" VerticalAlignment="Top" Width="116" Click="generate_Click"/>
+        <UniformGrid Columns="25" Rows="25" x:Name="BoardGrid" Background="#FFCBCBCB" Margin="60,222,64,43" Loaded="Window_Loaded">
+
+        </UniformGrid>
+
+    </Grid>
+</Window>
