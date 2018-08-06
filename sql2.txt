@@ -1,0 +1,103 @@
+1.
+select t1.DayID, CntrID, ArtID, EndQnty,
+
+(select case when
+		(select count(1) from tTestTable1 where artid = t1.artid and dayid = (t1.dayid - 1)) > 0
+		then (select count(distinct(dayid)) from tTestTable1 where artid = t1.artid and dayid < t1.dayid + 1)
+
+		else 1
+		end
+		) as DaysInRow
+from tTestTable1 t1
+			order by t1.artid, t1.dayid
+			
+			
+			
+			
+3.
+with t1 as
+(
+select datepart(week,IncomingDtm) s1, sum(volume) d1 from ttesttable2 where signid = 1 and incomingtype = 1 group by datepart(week,IncomingDtm)
+),
+t2 as
+(
+select datepart(week,IncomingDtm) s2, sum(volume) d2 from ttesttable2 where signid = 1 and incomingtype = 2 group by datepart(week,IncomingDtm)
+),
+
+t3 as
+(
+select * from t1 join t2  on t1.s1 = t2.s2 
+)
+select s1 as Week, d1/d2 as DVol from t3	
+
+
+4.
+with t1 as(
+select datepart(week,IncomingDtm) as Weekm, ArtID, Volume, Price-PriceCalc as DiffPrice from tTestTable2 where signid = 1 and incomingtype = 1
+)
+select * from t1 where DiffPrice > 0	
+			
+			
+			
+			
+			
+			
+USE [lifedb]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[saves](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[title] [nvarchar](50) NOT NULL,
+	[state] [nvarchar](650) NOT NULL,
+	[lastmodified] [datetime] NOT NULL,
+	[gen] [int] NOT NULL,
+	[datestart] [datetime] NULL,
+	[startstate] [nvarchar](650) NULL,
+ CONSTRAINT [PK_saves] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+
+
+
+USE [lifedb]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[logs](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[startstate] [nvarchar](650) NOT NULL,
+	[endstate] [nvarchar](650) NOT NULL,
+	[startdate] [datetime] NOT NULL,
+	[enddate] [datetime] NOT NULL,
+ CONSTRAINT [PK_logs] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+
+
+
+GO
+
+
